@@ -120,9 +120,9 @@ const createOffer = () => {
     guests: guestsNumber,
     checkin: getRandomArrayElement(TIMEIN),
     checkout: getRandomArrayElement(TIMEOUT),
-    features: getRandomArrayElement(FEATURES), //должен быть массив случайной длины. ниже сделана попытка создать этот массив под названием mustArray (см строку 178)
+    features: createFeatures(), //должен быть массив случайной длины. ниже сделана попытка создать этот массив под названием mustArray (см строку 178)
     description: 'Очень хорошее помещение на все случаи жизни',
-    photos: 'массив строк случайной длины', //здесь нужно вставить массив строк случайной длины из значений, которые собраны к константе фотографии, этого не сделано
+    photos: createPhotos(), //здесь нужно вставить массив строк случайной длины из значений, которые собраны к константе фотографии, этого не сделано
   };
 };
 
@@ -153,110 +153,110 @@ console.log(
   createLocation()
   );
 
-/*
+
   //Создаём главный объект, это предложение жилья. Это объект.
   //Он состоит из трёх объектов, которые мы уже создали ранее.
   //Здесь ошибка, так данный объект из трёх объектов не формируется.
   //Нужно понять, где ошибка и как сформировать этот объект из трёх объектов, созданных ранее.
 
-  const createProposal = () => {
-    let proposal;
 
-    return {
-      proposal = {
+  const createProposal = () => {
+    let proposal = {
         author: createAuthor(),
         offer: createOffer(),
         location: createLocation(),
-      }
-    };
+    }
+
+    return {
+      proposal,
+    }
   };
 
-  console.log(createProposal);
+  console.log(createProposal());
 
-*/
+let arrayProposal = [];
 
+for ( let i = 0; i <= 8; i++) {
+  arrayProposal[i] = createProposal();
+  arrayProposal.push(arrayProposal[i]);
+}
+
+console.log (arrayProposal);
+
+
+function createFeatures() {
   //функция по созданию массива строк случайной длины из значений:
   //wifi, dishwasher, parking, washer, elevator, conditioner. Значения не должны повторяться.
   //Назовём нужный нам массив mustArray
   //массив FEATURES у нас размещён ранее, в районе строки 89
 
-  console.log (FEATURES);
-
   //находим случайное целое число из диапазона от 1 до 6. Это будет длина будущего массива
-  let lengthArray = 3;
-  //randomInteger(1,6); временно, для отладки, даём длине будущего массива постоянную длину, равную трём
-  console.log (lengthArray);
+  let lengthArray = randomInteger(1,6);
 
-  //Объявляем о создании массива must Array
+  // с того момента мы начинаем создавать массив mustArray
+  //Его длина уже определена, она равна lengthArray
+  //Для начала объявим пустой массив
 
   let mustArray = [];
 
   //Делаем цикл, который сформирует массив mustArray нужной длины,
-  //то есть длины, которая равна lengthArray
+  //то есть длины, которая равна lengthArray,
 
-  //for (let i = 1; i <= lengthArray; i++) {
+  //Объявляем о создании временного массива для хранения номеров элементов
+  let timeArray = [];;
 
+  for (let i = 0; i <= (lengthArray - 1); i++) {
 
+    //Примечание: мы начинаем с нуля, и продолжаем до длины массива минус 1, потому что так принято работать с циклами
+    // и с номерами элементов массива и объекта. Первый элемент это нулевой элемент. Второй имеет номер 1 и т.д.
 
-  //Находим случайное целое число из диапазона от 1 до 6. Это будет номер элемента из
-  //массива FEATURES, которое пойдёт в массив mustArray
+    //Находим случайное целое число из диапазона от 1 до 6. Если вычесть из этого числа единицу, то это будет номер элемента из
+    //массива FEATURES, которое пойдёт в массив mustArray. В результате двух операций мы нашли номер элемента массива FEATURES
+    //этот номер пойдёт во временный массив для хранения номеров.
+    let num1 = randomInteger(1,6);
+    let numberElement = num1 - 1;
 
-  let numberElement1 = randomInteger(1,6);
-
-  console.log (numberElement1)
-  // Кладём этот номер по временный массив для номеров элементов.
-
-  let timeArray = [
-    numberElement1,
-  ]
-  console.log (timeArray);
-
-  //Находим случайное число из диапазона от 1 до 6
-  let numberElement2 = randomInteger(1,6);
-  console.log (numberElement2);
-
-  //Проверяем, совпадает первый номер со вторым, если да, то снова проводим поиск случайного числа.
-  //если не совпадает, то кладём этот номер во временный массив для номеров элементов.
-
-  //Тестирование показало, что иногда здесь выскакивает массив timeArray из одного элемента - нужно понять,
-  //почему так происходит и исправить.
-
-  if (numberElement1 === numberElement2) {
-    numberElement2 = randomInteger(1,6);
-  } else {
-    timeArray = [
-      numberElement1,
-      numberElement2,
-    ]
+    if (timeArray.includes(numberElement)) {
+      num1 = randomInteger(1,6);
+      numberElement = num1 - 1;
+      i = i - 1;
+    } else {
+      // Добавляем этот номер элемента numberElement в этот массив.
+      timeArray.push(numberElement);
+    }
   }
 
-  console.log(timeArray);
-  //Находим случайное число под номером 3 из диапазона от 1 до 6
-  let numberElement3 = randomInteger(1,6);
-  console.log (numberElement3);
+  //формируем массив mustArray длины lengthArray и кладём туда значения из FEATURES
+  // c номерами из массива timeArray
 
-  //Проверяем, совпадает третий номер со вторым или третьим, если да, то снова проводим поиск случайного числа.
-  //если не совпадает, то кладём этот номер во временный массив для номеров элементов.
-
-  if (numberElement3 === numberElement1 && numberElement3 === numberElement2) {
-    numberElement3 = randomInteger(1,6);
-  } else {
-    timeArray = [
-      numberElement1,
-      numberElement2,
-      numberElement3,
-    ]
+  for (let i = 0; i <= (lengthArray - 1); i++) {
+    mustArray.push(FEATURES[timeArray[i]]);
   }
-  console.log(timeArray);
+  console.log (mustArray);
+  return mustArray;
+};
 
-  //формируем массив mustArray случайной длины из строк со значениями,
-  //wifi, dishwasher, parking, washer, elevator, conditioner. Значения не должны повторяться.
+function createPhotos() {
+  let lengthArray = randomInteger(1,3);
+  let mustArray1 = [];
+  let timeArray1 = [];;
 
-mustArray = [
-  FEATURES[numberElement1],
-  FEATURES[numberElement2],
-  FEATURES[numberElement3],
-]
+  for (let i = 0; i <= (lengthArray - 1); i++) {
+    let num1 = randomInteger(1,3);
+    let numberElement = num1 - 1;
 
-console.log(mustArray);
+    if (timeArray1.includes(numberElement)) {
+      num1 = randomInteger(1,3);
+      numberElement = num1 - 1;
+      i = i - 1;
+    } else {
+      timeArray1.push(numberElement);
+    }
+  }
 
+  for (let i = 0; i <= (lengthArray - 1); i++) {
+    mustArray1.push(PHOTOS[timeArray1[i]]);
+  }
+  console.log (mustArray1);
+  return mustArray1;
+};
