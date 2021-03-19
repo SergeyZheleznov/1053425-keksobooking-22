@@ -72,7 +72,7 @@ const createOffer = () => {
   let guestsNumber = randomInteger(1,100);
 
   const getRandomArrayElement = (elements) => {
-    return elements[_.random(0, elements.length - 1)];
+    return elements[window._random(0, elements.length - 1)];
   };
 
   return {
@@ -90,10 +90,6 @@ const createOffer = () => {
   };
 };
 
-console.log (
-  createOffer(),
-);
-
 const createLocation = () => {
   let res2;
   let res3 = randomDig(35.65000, 35.70000, 5);
@@ -106,11 +102,6 @@ const createLocation = () => {
     y: res4,
   };
 };
-
-console.log(
-  createLocation(),
-);
-
 
 //Создаём главный объект, это предложение жилья. Это объект.
 //Он состоит из трёх объектов, которые мы уже создали ранее.
@@ -127,16 +118,12 @@ const createProposal = () => {
   }
 };
 
-console.log(createProposal());
-
 let arrayProposal = [];
 
 for ( let i = 0; i <= 8; i++) {
   arrayProposal[i] = createProposal();
   arrayProposal.push(arrayProposal[i]);
 }
-
-console.log (arrayProposal);
 
 function createFeatures() {
   //функция по созданию массива строк случайной длины из значений:
